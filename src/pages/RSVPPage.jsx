@@ -6,7 +6,6 @@ import { submitRSVP } from '../api/rsvpService';
 import { useGuest } from '../contexts/GuestContext';
 import LoadingScreen from '../components/UI/LoadingScreen';
 import ErrorMessage from '../components/UI/ErrorMessage';
-import SuccessMessage from '../components/UI/SuccessMessage';
 import AudioControls from '../components/UI/AudioControls';
 
 /**
@@ -45,8 +44,7 @@ export default function RSVPPage() {
   const [attendingCount, setAttendingCount] = useState(guestData?.partySize || 1);
   const [foodPreference, setFoodPreference] = useState('indian');
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [rsvpResponse, setRsvpResponse] = useState(null);
+  const [localSubmittedData, setLocalSubmittedData] = useState(null);
   const contentRef = useRef();
 
   // Update attendingCount when guestData loads
@@ -60,7 +58,15 @@ export default function RSVPPage() {
   const rsvpStatus = typeof guestData?.rsvpStatus === 'string'
     ? guestData.rsvpStatus.toLowerCase()
     : 'pending';
-  const hasSubmitted = rsvpStatus !== 'pending' && rsvpStatus !== '' && rsvpStatus !== null;
+  const hasSubmittedToServer = rsvpStatus !== 'pending' && rsvpStatus !== '' && rsvpStatus !== null;
+  const hasLocalSubmission = localSubmittedData !== null;
+  const hasSubmitted = hasSubmittedToServer || hasLocalSubmission;
+
+  // Determine which data to display in read-only view
+  const displayRsvpStatus = hasLocalSubmission ? localSubmittedData.rsvpStatus : rsvpStatus;
+  const displayAttendingCount = hasLocalSubmission ? localSubmittedData.attendingCount : guestData?.attendingCount;
+  const displayFoodPreference = hasLocalSubmission ? localSubmittedData.foodPreference : guestData?.foodPreference;
+
   const partySize = guestData?.partySize || 1;
   const isCouple = partySize > 1;
 
@@ -120,13 +126,14 @@ export default function RSVPPage() {
     try {
       await submitRSVP(token, 'declined', 0, null);
 
-      setRsvpResponse('declined');
-      setShowSuccess(true);
+      // Store local submission data to trigger read-only view
+      setLocalSubmittedData({
+        rsvpStatus: 'declined',
+        attendingCount: 0,
+        foodPreference: null
+      });
 
-      // Auto-redirect after 3 seconds
-      setTimeout(() => {
-        navigate(`/invite/${token}`, { replace: true });
-      }, 3000);
+      // No auto-redirect - let user close manually
     } catch (error) {
       console.error('RSVP submission failed:', error);
       alert(`Failed to submit RSVP: ${error.message}\n\nPlease try again.`);
@@ -147,13 +154,14 @@ export default function RSVPPage() {
     try {
       await submitRSVP(token, 'accepted', attendingCount, foodPreference);
 
-      setRsvpResponse('accepted');
-      setShowSuccess(true);
+      // Store local submission data to trigger read-only view
+      setLocalSubmittedData({
+        rsvpStatus: 'accepted',
+        attendingCount: attendingCount,
+        foodPreference: foodPreference
+      });
 
-      // Auto-redirect after 3 seconds
-      setTimeout(() => {
-        navigate(`/invite/${token}`, { replace: true });
-      }, 3000);
+      // No auto-redirect - let user close manually
     } catch (error) {
       console.error('RSVP submission failed:', error);
       alert(`Failed to submit RSVP: ${error.message}\n\nPlease try again.`);
@@ -173,17 +181,6 @@ export default function RSVPPage() {
       <ErrorMessage
         error={error || "Unable to load invitation details"}
         onRetry={() => navigate(`/invite/${token}`)}
-      />
-    );
-  }
-
-  // Show success message
-  if (showSuccess) {
-    return (
-      <SuccessMessage
-        response={rsvpResponse}
-        guestName={guestData?.name}
-        onClose={() => navigate(`/invite/${token}`)}
       />
     );
   }
@@ -253,28 +250,28 @@ export default function RSVPPage() {
                   filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.5))',
                   animation: 'bounce 2s ease-in-out infinite'
                 }}>
-                  {rsvpStatus === 'accepted' ? '🎉' : '😔'}
+                  {displayRsvpStatus === 'accepted' ? '🎉' : '😔'}
                 </div>
               </div>
               <div className="bg-white/90 p-8 rounded-2xl border-2 border-white shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                 <p className="text-3xl text-spice-red mb-6 font-bold" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
-                  You {rsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
+                  You {displayRsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
                 </p>
-                {rsvpStatus === 'accepted' && (
+                {displayRsvpStatus === 'accepted' && (
                   <div className="space-y-4 mt-6">
                     <div className="bg-curry-gold/90 p-4 rounded-xl border-2 border-curry-gold">
                       <p className="text-xl text-spice-red font-semibold">
-                        👥 Attending: <span className="text-spice-red font-bold">{guestData.attendingCount} {guestData.attendingCount === 1 ? 'person' : 'people'}</span>
+                        👥 Attending: <span className="text-spice-red font-bold">{displayAttendingCount} {displayAttendingCount === 1 ? 'person' : 'people'}</span>
                       </p>
                     </div>
                     <div className="bg-curry-gold/90 p-4 rounded-xl border-2 border-curry-gold">
                       <p className="text-xl text-spice-red font-semibold">
-                        🍛 Food: <span className="text-spice-red font-bold">{guestData.foodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
+                        🍛 Food: <span className="text-spice-red font-bold">{displayFoodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
                       </p>
                     </div>
                   </div>
                 )}
-                {guestData.timestamp && (
+                {!hasLocalSubmission && guestData.timestamp && (
                   <p className="text-lg text-gray-700 mt-6 italic">
                     Submitted on {new Date(guestData.timestamp).toLocaleDateString('en-US', {
                       month: 'long',
@@ -283,7 +280,7 @@ export default function RSVPPage() {
                     })}
                   </p>
                 )}
-                {rsvpStatus === 'accepted' && (
+                {displayRsvpStatus === 'accepted' && (
                   <p className="text-2xl text-spice-red mt-8 font-bold animate-pulse">
                     See you there! 🎊
                   </p>

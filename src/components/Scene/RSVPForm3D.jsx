@@ -3,7 +3,6 @@ import { Html } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { submitRSVP } from '../../api/rsvpService';
-import SuccessMessage from '../UI/SuccessMessage';
 
 /**
  * Loading Spinner Component
@@ -38,8 +37,7 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
   const [attendingCount, setAttendingCount] = useState(guestData?.partySize || 1);
   const [foodPreference, setFoodPreference] = useState('indian');
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [rsvpResponse, setRsvpResponse] = useState(null);
+  const [localSubmittedData, setLocalSubmittedData] = useState(null);
   const contentRef = useRef();
 
   // Update attendingCount when guestData loads
@@ -53,7 +51,15 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
   const rsvpStatus = typeof guestData?.rsvpStatus === 'string'
     ? guestData.rsvpStatus.toLowerCase()
     : 'pending';
-  const hasSubmitted = rsvpStatus !== 'pending' && rsvpStatus !== '' && rsvpStatus !== null;
+  const hasSubmittedToServer = rsvpStatus !== 'pending' && rsvpStatus !== '' && rsvpStatus !== null;
+  const hasLocalSubmission = localSubmittedData !== null;
+  const hasSubmitted = hasSubmittedToServer || hasLocalSubmission;
+
+  // Determine which data to display in read-only view
+  const displayRsvpStatus = hasLocalSubmission ? localSubmittedData.rsvpStatus : rsvpStatus;
+  const displayAttendingCount = hasLocalSubmission ? localSubmittedData.attendingCount : guestData?.attendingCount;
+  const displayFoodPreference = hasLocalSubmission ? localSubmittedData.foodPreference : guestData?.foodPreference;
+
   const partySize = guestData?.partySize || 1;
   const isCouple = partySize > 1;
 
@@ -111,13 +117,15 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
 
     try {
       await submitRSVP(token, 'declined', 0, null);
-      setRsvpResponse('declined');
-      setShowSuccess(true);
 
-      // Auto-close after 3 seconds
-      setTimeout(() => {
-        onClose();
-      }, 3000);
+      // Store local submission data to trigger read-only view
+      setLocalSubmittedData({
+        rsvpStatus: 'declined',
+        attendingCount: 0,
+        foodPreference: null
+      });
+
+      // No auto-close - let user close manually
     } catch (error) {
       console.error('RSVP submission failed:', error);
       alert(`Failed to submit RSVP: ${error.message}\n\nPlease try again.`);
@@ -137,13 +145,15 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
 
     try {
       await submitRSVP(token, 'accepted', attendingCount, foodPreference);
-      setRsvpResponse('accepted');
-      setShowSuccess(true);
 
-      // Auto-close after 3 seconds
-      setTimeout(() => {
-        onClose();
-      }, 3000);
+      // Store local submission data to trigger read-only view
+      setLocalSubmittedData({
+        rsvpStatus: 'accepted',
+        attendingCount: attendingCount,
+        foodPreference: foodPreference
+      });
+
+      // No auto-close - let user close manually
     } catch (error) {
       console.error('RSVP submission failed:', error);
       alert(`Failed to submit RSVP: ${error.message}\n\nPlease try again.`);
@@ -153,27 +163,6 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
   };
 
   if (!show) return null;
-
-  // Show success message
-  if (showSuccess) {
-    return (
-      <Html
-        position={[0, 0, 5]}
-        transform
-        distanceFactor={1}
-        occlude
-        style={{ pointerEvents: 'auto' }}
-      >
-        <div style={{ width: '400px', maxWidth: '90vw', transform: 'scale(0.7)' }}>
-          <SuccessMessage
-            response={rsvpResponse}
-            guestName={guestData?.name}
-            onClose={onClose}
-          />
-        </div>
-      </Html>
-    );
-  }
 
   return (
     <Html
@@ -239,28 +228,28 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
                     filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.5))',
                     animation: 'bounce 2s ease-in-out infinite'
                   }}>
-                    {rsvpStatus === 'accepted' ? '🎉' : '😔'}
+                    {displayRsvpStatus === 'accepted' ? '🎉' : '😔'}
                   </div>
                 </div>
                 <div className="bg-white/90 p-6 md:p-8 rounded-2xl border-2 border-white shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
                   <p className="text-2xl md:text-3xl text-spice-red mb-4 font-bold" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
-                    You {rsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
+                    You {displayRsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
                   </p>
-                  {rsvpStatus === 'accepted' && (
+                  {displayRsvpStatus === 'accepted' && (
                     <div className="space-y-3 mt-4">
                       <div className="bg-curry-gold/90 p-4 rounded-xl border-2 border-curry-gold">
                         <p className="text-lg md:text-xl text-spice-red font-semibold">
-                          👥 Attending: <span className="text-spice-red font-bold">{guestData.attendingCount} {guestData.attendingCount === 1 ? 'person' : 'people'}</span>
+                          👥 Attending: <span className="text-spice-red font-bold">{displayAttendingCount} {displayAttendingCount === 1 ? 'person' : 'people'}</span>
                         </p>
                       </div>
                       <div className="bg-curry-gold/90 p-4 rounded-xl border-2 border-curry-gold">
                         <p className="text-lg md:text-xl text-spice-red font-semibold">
-                          🍛 Food: <span className="text-spice-red font-bold">{guestData.foodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
+                          🍛 Food: <span className="text-spice-red font-bold">{displayFoodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
                         </p>
                       </div>
                     </div>
                   )}
-                  {rsvpStatus === 'accepted' && (
+                  {displayRsvpStatus === 'accepted' && (
                     <p className="text-xl md:text-2xl text-spice-red mt-6 font-bold animate-pulse">
                       See you there! 🎊
                     </p>
