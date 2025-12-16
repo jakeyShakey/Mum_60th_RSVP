@@ -56,4 +56,40 @@
     min-height: 100vh;
     min-height: 100dvh;
   }
+
+  /* Vintage 1960s text effects */
+  .text-vintage-shadow {
+    text-shadow:
+      3px 3px 0px rgba(139, 69, 19, 0.3),
+      6px 6px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .text-vintage-glow {
+    text-shadow:
+      0 0 10px rgba(233, 196, 106, 0.8),
+      0 0 20px rgba(255, 107, 53, 0.6);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #FF6B35 0%, #E9C46A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Vintage border effects */
+  .border-vintage-double {
+    border: 4px double #E9C46A;
+    box-shadow:
+      inset 0 0 20px rgba(233, 196, 106, 0.2),
+      0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Vintage button glow */
+  .button-vintage-glow {
+    box-shadow:
+      0 0 20px rgba(255, 107, 53, 0.6),
+      0 0 40px rgba(255, 107, 53, 0.4),
+      0 4px 10px rgba(0, 0, 0, 0.3);
+  }
 }

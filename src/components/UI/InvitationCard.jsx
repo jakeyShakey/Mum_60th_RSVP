@@ -1,27 +1,24 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
-import { createTextRevealTimeline, createRSVPButtonTimeline } from '../../utils/animations';
+import { createVintage60sEntranceTimeline } from '../../utils/vintage60sAnimations';
 import { EVENT_DETAILS } from '../../utils/constants';
+import {
+  GiantSixtyBackground,
+  BorderFrame,
+  DividerOrnament,
+} from './VintageDecorations';
 
 /**
- * InvitationCard component - Displays party details after reveal
+ * InvitationCard component - Vintage 1960s Design
+ * Displays party details with retro aesthetic and theatrical entrance
  */
 export default function InvitationCard({ show = false, guestName, onRSVPClick }) {
-  const cardRef = useRef();
-  const buttonRef = useRef();
+  const containerRef = useRef();
 
-  // Trigger GSAP animations when card appears
+  // Trigger vintage entrance animation when card appears
   useEffect(() => {
-    if (show && cardRef.current) {
-      // Animate text reveal
-      const textTl = createTextRevealTimeline('.invitation-content');
-
-      // Animate RSVP button after text
-      textTl.eventCallback('onComplete', () => {
-        if (buttonRef.current) {
-          createRSVPButtonTimeline('.rsvp-button');
-        }
-      });
+    if (show && containerRef.current) {
+      createVintage60sEntranceTimeline('.invitation-container');
     }
   }, [show]);
 
@@ -32,52 +29,86 @@ export default function InvitationCard({ show = false, guestName, onRSVPClick })
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+      className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 px-4"
     >
       <div
-        ref={cardRef}
-        className="invitation-content text-center pointer-events-auto max-w-2xl px-8"
+        ref={containerRef}
+        className="invitation-container relative pointer-events-auto
+                   max-w-[700px] w-full p-12 md:p-16 rounded-lg"
+        style={{
+          background: 'radial-gradient(circle at center, #FFF8E7 0%, #FF8C42 100%)',
+          boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)',
+        }}
       >
-        {/* Main Headline */}
-        <h1 className="text-5xl md:text-7xl font-display text-white mb-6 text-shadow">
-          {EVENT_DETAILS.name}
-        </h1>
+        {/* ===== DECORATIVE LAYER ===== */}
 
-        {/* Personalized greeting */}
-        {guestName && (
-          <p className="text-2xl md:text-3xl text-curry-gold mb-6 font-semibold">
-            You're invited, {guestName}!
+        {/* Giant "60" Background Watermark */}
+        <GiantSixtyBackground />
+
+        {/* Border Frame */}
+        <BorderFrame />
+
+        {/* ===== CONTENT LAYER ===== */}
+
+        <div className="relative z-10 text-center">
+          {/* Main Headline */}
+          <h1
+            className="invitation-headline font-headline text-6xl md:text-8xl
+                       text-gradient-gold text-vintage-shadow mb-8 leading-tight"
+          >
+            {EVENT_DETAILS.name}
+          </h1>
+
+          {/* Divider 1 */}
+          <DividerOrnament className="mb-6" />
+
+          {/* Personalized Greeting */}
+          {guestName && (
+            <p className="invitation-greeting font-script text-3xl md:text-4xl
+                          text-vintage-burgundy mb-8"
+            >
+              You're invited, {guestName}!
+            </p>
+          )}
+
+          {/* Date & Time */}
+          <div className="invitation-datetime font-body text-2xl md:text-3xl
+                          text-vintage-brown font-semibold mb-6 space-y-1"
+          >
+            <p>{EVENT_DETAILS.date}</p>
+            <p>{EVENT_DETAILS.time}</p>
+          </div>
+
+          {/* Venue */}
+          <div className="invitation-venue font-body text-xl md:text-2xl
+                          text-vintage-burgundy mb-6"
+          >
+            <p className="font-bold mb-1">{EVENT_DETAILS.venue.name}</p>
+            <p className="text-retro-gold font-medium">{EVENT_DETAILS.venue.location}</p>
+          </div>
+
+          {/* Divider 2 */}
+          <DividerOrnament className="mb-6" />
+
+          {/* Special Note */}
+          <p className="invitation-note font-body text-lg md:text-xl
+                        text-retro-orange italic mb-10"
+          >
+            {EVENT_DETAILS.note}
           </p>
-        )}
 
-        {/* Date & Time */}
-        <div className="text-2xl md:text-3xl text-spice-yellow mb-4">
-          <p>{EVENT_DETAILS.date}</p>
-          <p>{EVENT_DETAILS.time}</p>
+          {/* RSVP Button */}
+          <button
+            onClick={onRSVPClick}
+            className="rsvp-button font-body bg-gradient-to-r from-retro-orange to-retro-red
+                       text-white px-10 py-5 rounded-full text-xl md:text-2xl font-bold
+                       uppercase tracking-wider
+                       hover:scale-105 active:scale-95 transition-transform
+                       button-vintage-glow border-4 border-vintage-cream"
+          >
+            RSVP Now
+          </button>
         </div>
-
-        {/* Venue */}
-        <div className="text-xl md:text-2xl text-white mb-4">
-          <p className="font-semibold">{EVENT_DETAILS.venue.name}</p>
-          <p className="text-curry-gold">{EVENT_DETAILS.venue.location}</p>
-        </div>
-
-        {/* Special Note */}
-        <p className="text-lg md:text-xl text-spice-orange mb-8 italic">
-          {EVENT_DETAILS.note}
-        </p>
-
-        {/* RSVP Button */}
-        <button
-          ref={buttonRef}
-          onClick={onRSVPClick}
-          className="rsvp-button bg-gradient-to-r from-spice-orange to-spice-red text-white
-                     px-8 py-4 rounded-full text-xl font-semibold
-                     hover:scale-105 active:scale-95 transition-transform
-                     shadow-lg hover:shadow-xl glow"
-        >
-          RSVP Now
-        </button>
       </div>
     </motion.div>
   );
