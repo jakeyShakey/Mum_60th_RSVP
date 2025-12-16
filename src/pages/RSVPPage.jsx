@@ -7,6 +7,11 @@ import { useGuest } from '../contexts/GuestContext';
 import LoadingScreen from '../components/UI/LoadingScreen';
 import ErrorMessage from '../components/UI/ErrorMessage';
 import AudioControls from '../components/UI/AudioControls';
+import {
+  GiantSixtyBackground,
+  BorderFrame,
+  DividerOrnament,
+} from '../components/UI/VintageDecorations';
 
 /**
  * Loading Spinner Component
@@ -213,31 +218,28 @@ export default function RSVPPage() {
       <div className="max-w-md md:max-w-lg mx-auto p-4 md:p-8 py-16">
         <div
           ref={contentRef}
-          className="relative bg-gradient-to-br from-orange-400 via-orange-500 to-yellow-400 p-8 md:p-10 rounded-3xl shadow-[0_0_80px_rgba(255,165,0,0.9)] border-4 border-yellow-300"
+          className="relative rounded-lg p-12 md:p-16"
           style={{
-            boxShadow: '0 0 80px rgba(255,165,0,0.9), 0 0 120px rgba(255,215,0,0.6), inset 0 0 100px rgba(255,255,255,0.3)'
+            background: 'radial-gradient(circle at center, #FFF8E7 0%, #FF8C42 100%)',
+            boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)'
           }}
         >
-          {/* Decorative corner elements */}
-          <div className="absolute top-0 left-0 w-20 h-20 opacity-70">
-            <div className="absolute top-3 left-3 text-white text-6xl drop-shadow-lg">✦</div>
-          </div>
-          <div className="absolute top-0 right-0 w-20 h-20 opacity-70">
-            <div className="absolute top-3 right-3 text-white text-6xl drop-shadow-lg">✦</div>
-          </div>
-          <div className="absolute bottom-0 left-0 w-20 h-20 opacity-70">
-            <div className="absolute bottom-3 left-3 text-white text-6xl drop-shadow-lg">✦</div>
-          </div>
-          <div className="absolute bottom-0 right-0 w-20 h-20 opacity-70">
-            <div className="absolute bottom-3 right-3 text-white text-6xl drop-shadow-lg">✦</div>
-          </div>
+          {/* Vintage Decorative Elements */}
+          <GiantSixtyBackground />
+          <BorderFrame />
+
+          {/* Content Layer */}
+          <div className="relative z-10">
 
           {/* Header */}
-          <div className="text-center mb-10 relative">
-            <h2 className="text-5xl font-display text-white mb-3 relative drop-shadow-2xl" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5)' }}>
+          <div className="text-center mb-8 relative">
+            <h2 className="font-headline text-5xl md:text-6xl text-gradient-gold text-vintage-shadow mb-8 leading-tight">
               {hasSubmitted ? '✨ Your RSVP ✨' : '🎊 RSVP 🎊'}
             </h2>
-            <p className="text-2xl text-white font-bold relative drop-shadow-lg bg-white/90 text-spice-red px-6 py-2 rounded-full inline-block" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+
+            <DividerOrnament className="mb-6" />
+
+            <p className="font-script text-3xl md:text-4xl text-vintage-burgundy mb-6">
               {guestData.name}
             </p>
           </div>
@@ -253,26 +255,28 @@ export default function RSVPPage() {
                   {displayRsvpStatus === 'accepted' ? '🎉' : '😔'}
                 </div>
               </div>
-              <div className="bg-white/90 p-8 rounded-2xl border-2 border-white shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-                <p className="text-3xl text-spice-red mb-6 font-bold" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+              <div className="bg-vintage-cream/95 p-8 rounded-2xl border-4 border-retro-gold shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                <p className="font-headline text-3xl md:text-4xl mb-6 text-vintage-shadow" style={{
+                  color: displayRsvpStatus === 'accepted' ? '#FF6B35' : '#800020'
+                }}>
                   You {displayRsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
                 </p>
                 {displayRsvpStatus === 'accepted' && (
                   <div className="space-y-4 mt-6">
-                    <div className="bg-curry-gold/90 p-4 rounded-xl border-2 border-curry-gold">
-                      <p className="text-xl text-spice-red font-semibold">
-                        👥 Attending: <span className="text-spice-red font-bold">{displayAttendingCount} {displayAttendingCount === 1 ? 'person' : 'people'}</span>
+                    <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
+                      <p className="font-body text-xl text-vintage-brown font-semibold">
+                        👥 Attending: <span className="text-vintage-burgundy font-bold">{displayAttendingCount} {displayAttendingCount === 1 ? 'person' : 'people'}</span>
                       </p>
                     </div>
-                    <div className="bg-curry-gold/90 p-4 rounded-xl border-2 border-curry-gold">
-                      <p className="text-xl text-spice-red font-semibold">
-                        🍛 Food: <span className="text-spice-red font-bold">{displayFoodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
+                    <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
+                      <p className="font-body text-xl text-vintage-brown font-semibold">
+                        🍛 Food: <span className="text-vintage-burgundy font-bold">{displayFoodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
                       </p>
                     </div>
                   </div>
                 )}
                 {!hasLocalSubmission && guestData.timestamp && (
-                  <p className="text-lg text-gray-700 mt-6 italic">
+                  <p className="font-body text-lg text-vintage-brown mt-6 italic">
                     Submitted on {new Date(guestData.timestamp).toLocaleDateString('en-US', {
                       month: 'long',
                       day: 'numeric',
@@ -281,13 +285,15 @@ export default function RSVPPage() {
                   </p>
                 )}
                 {displayRsvpStatus === 'accepted' && (
-                  <p className="text-2xl text-spice-red mt-8 font-bold animate-pulse">
+                  <p className="font-body text-2xl text-vintage-burgundy mt-8 font-bold animate-pulse">
                     See you there! 🎊
                   </p>
                 )}
                 <button
                   onClick={() => navigate(`/invite/${token}`)}
-                  className="mt-8 py-4 px-8 bg-curry-gold hover:bg-curry-gold/80 text-white rounded-xl font-bold transition-all duration-300 shadow-[0_0_20px_rgba(255,215,0,0.5)]"
+                  className="mt-8 font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy px-8 py-4 rounded-full text-lg font-bold
+                           uppercase tracking-wider hover:scale-105 active:scale-95 transition-transform
+                           button-vintage-glow border-4 border-vintage-burgundy"
                 >
                   Back to Invitation
                 </button>
@@ -300,28 +306,27 @@ export default function RSVPPage() {
               <button
                 onClick={handleAcceptClick}
                 disabled={isSubmitting}
-                className="rsvp-button-option w-full py-6 px-8 bg-gradient-to-r from-white to-curry-gold text-spice-red rounded-2xl text-2xl font-bold
-                         hover:from-curry-gold hover:to-white hover:scale-110 hover:shadow-[0_0_40px_rgba(255,215,0,0.8)] active:scale-100
-                         transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.4)] disabled:opacity-50 disabled:cursor-not-allowed
-                         border-2 border-white/30 relative overflow-hidden group"
-                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}
+                className="rsvp-button-option w-full font-body bg-gradient-to-r from-retro-orange to-retro-red
+                         text-white px-10 py-5 rounded-full text-xl md:text-2xl font-bold
+                         uppercase tracking-wider
+                         hover:scale-105 active:scale-95 transition-transform
+                         button-vintage-glow border-4 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
+                <span className="flex items-center justify-center gap-2">
                   <span className="text-3xl">🎉</span>
                   <span>Accept Invitation!</span>
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               </button>
 
               {/* Decline Button */}
               <button
                 onClick={handleDeclineClick}
                 disabled={isSubmitting}
-                className="rsvp-button-option w-full py-5 px-8 bg-gradient-to-r from-gray-700 to-gray-900 text-white rounded-2xl text-xl font-semibold
-                         hover:from-gray-600 hover:to-gray-800 hover:scale-105 active:scale-95
-                         transition-all duration-300 shadow-[0_6px_20px_rgba(0,0,0,0.6)] disabled:opacity-50 disabled:cursor-not-allowed
-                         border-2 border-gray-600/50"
-                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+                className="rsvp-button-option w-full font-body bg-gradient-to-r from-vintage-brown to-vintage-burgundy
+                         text-white px-10 py-5 rounded-full text-xl md:text-2xl font-bold
+                         uppercase tracking-wider
+                         hover:scale-105 active:scale-95 transition-transform
+                         border-4 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -337,17 +342,19 @@ export default function RSVPPage() {
           ) : (
             // Accept form with party size and food preference
             <div className="accept-form-fields flex flex-col gap-8">
+              <DividerOrnament className="mb-2" />
+
               {/* Party Size Selection (only if couple) */}
               {isCouple && (
-                <div className="bg-white/95 p-6 rounded-2xl border-2 border-white">
-                  <label className="block text-spice-red text-2xl font-bold mb-5 text-center" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+                <div className="bg-vintage-cream/95 p-6 rounded-2xl border-2 border-retro-gold">
+                  <label className="block font-body text-2xl text-vintage-burgundy font-semibold mb-5 text-center">
                     👥 Can you both make it?
                   </label>
                   <div className="flex flex-col gap-4">
-                    <label className={`flex items-center p-5 rounded-xl cursor-pointer transition-all duration-300 border-3 ${
+                    <label className={`flex items-center p-5 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                       attendingCount === partySize
-                        ? 'bg-curry-gold border-curry-gold shadow-[0_0_20px_rgba(255,215,0,0.5)] scale-105'
-                        : 'bg-white/90 border-white/50 hover:bg-white hover:scale-102'
+                        ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
+                        : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
                     }`}>
                       <input
                         type="radio"
@@ -355,14 +362,14 @@ export default function RSVPPage() {
                         value={partySize}
                         checked={attendingCount === partySize}
                         onChange={() => setAttendingCount(partySize)}
-                        className="mr-4 w-6 h-6 accent-curry-gold"
+                        className="mr-4 w-6 h-6 accent-retro-gold"
                       />
-                      <span className={`text-xl font-semibold ${attendingCount === partySize ? 'text-white' : 'text-spice-red'}`}>✨ Yes, both of us!</span>
+                      <span className={`font-body text-xl font-semibold ${attendingCount === partySize ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>✨ Yes, both of us!</span>
                     </label>
-                    <label className={`flex items-center p-5 rounded-xl cursor-pointer transition-all duration-300 border-3 ${
+                    <label className={`flex items-center p-5 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                       attendingCount === 1
-                        ? 'bg-curry-gold border-curry-gold shadow-[0_0_20px_rgba(255,215,0,0.5)] scale-105'
-                        : 'bg-white/90 border-white/50 hover:bg-white hover:scale-102'
+                        ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
+                        : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
                     }`}>
                       <input
                         type="radio"
@@ -370,26 +377,25 @@ export default function RSVPPage() {
                         value="1"
                         checked={attendingCount === 1}
                         onChange={() => setAttendingCount(1)}
-                        className="mr-4 w-6 h-6 accent-curry-gold"
+                        className="mr-4 w-6 h-6 accent-retro-gold"
                       />
-                      <span className={`text-xl font-semibold ${attendingCount === 1 ? 'text-white' : 'text-spice-red'}`}>Only 1 of us can make it</span>
+                      <span className={`font-body text-xl font-semibold ${attendingCount === 1 ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>Only 1 of us can make it</span>
                     </label>
                   </div>
                 </div>
               )}
 
               {/* Food Preference Selection */}
-              <div className="bg-white/95 p-6 rounded-2xl border-2 border-white">
-                <label className="block text-spice-red text-2xl font-bold mb-5 text-center" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+              <div className="bg-vintage-cream/95 p-6 rounded-2xl border-2 border-retro-gold">
+                <label className="block font-body text-2xl text-vintage-burgundy font-semibold mb-5 text-center">
                   🍛 Food Preference
                 </label>
                 <select
                   value={foodPreference}
                   onChange={(e) => setFoodPreference(e.target.value)}
-                  className="w-full p-5 rounded-xl bg-white text-gray-800 text-xl font-bold cursor-pointer
-                           focus:outline-none focus:ring-4 focus:ring-curry-gold shadow-[0_4px_20px_rgba(0,0,0,0.3)]
-                           border-2 border-curry-gold/30 hover:border-curry-gold transition-all duration-300"
-                  style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}
+                  className="w-full p-5 rounded-xl bg-white font-body text-vintage-brown text-xl font-semibold cursor-pointer
+                           focus:outline-none focus:ring-2 focus:ring-retro-gold shadow-[0_4px_20px_rgba(0,0,0,0.3)]
+                           border-2 border-retro-gold hover:border-vintage-burgundy transition-all duration-300"
                 >
                   <option value="indian">🌶️ Indian (Traditional Curry)</option>
                   <option value="english">🥘 English Food</option>
@@ -400,26 +406,25 @@ export default function RSVPPage() {
               <button
                 onClick={handleSubmitRSVP}
                 disabled={isSubmitting}
-                className="w-full py-6 px-8 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-2xl text-2xl font-bold
-                         hover:from-green-500 hover:to-green-700 hover:scale-110 hover:shadow-[0_0_40px_rgba(34,197,94,0.8)] active:scale-100
-                         transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.4)] disabled:opacity-50 disabled:cursor-not-allowed
-                         border-2 border-white/30 relative overflow-hidden group"
-                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
+                className="w-full font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy px-10 py-5 rounded-full text-xl md:text-2xl font-bold
+                         uppercase tracking-wider
+                         hover:scale-105 active:scale-95 transition-transform
+                         button-vintage-glow border-4 border-vintage-burgundy disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
                     <LoadingSpinner /> <span>Submitting...</span>
                   </span>
                 ) : (
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    <span className="text-3xl">✅</span>
-                    <span>Confirm RSVP!</span>
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="text-3xl">✓</span>
+                    <span>Submit RSVP</span>
                   </span>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               </button>
             </div>
           )}
+          </div>
         </div>
       </div>
     </motion.div>
