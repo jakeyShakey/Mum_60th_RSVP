@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Scene from '../components/Scene/Scene';
 import LoadingScreen from '../components/UI/LoadingScreen';
-import InvitationCard from '../components/UI/InvitationCard';
+import FlippableCard from '../components/UI/FlippableCard';
 import AudioControls from '../components/UI/AudioControls';
 import ErrorMessage from '../components/UI/ErrorMessage';
 import { createRevealTimeline } from '../utils/animations';
@@ -11,8 +11,7 @@ function InvitePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [sceneReady, setSceneReady] = useState(false);
   const [interactionState, setInteractionState] = useState('idle'); // idle, revealed
-  const [showInvitation, setShowInvitation] = useState(false);
-  const [showRSVP, setShowRSVP] = useState(false);
+  const [showCard, setShowCard] = useState(false);
 
   const backgroundRef = useRef();
   const cameraRef = useRef();
@@ -38,21 +37,11 @@ function InvitePage() {
       camera: cameraRef.current,
       backgroundEl: backgroundRef.current,
       onComplete: () => {
-        // Show invitation card after reveal animation
-        setShowInvitation(true);
+        // Show flippable card after reveal animation
+        setShowCard(true);
       },
     });
   }, []);
-
-  // Handle RSVP button click - show 3D RSVP form
-  const handleRSVPClick = () => {
-    setShowRSVP(true);
-  };
-
-  // Handle RSVP close - hide 3D RSVP form
-  const handleRSVPClose = () => {
-    setShowRSVP(false);
-  };
 
   // Particle intensity: 0 while spinning, burst to 1 when revealed
   const particleIntensity = interactionState === 'revealed' ? 1 : 0;
@@ -81,10 +70,6 @@ function InvitePage() {
         onSpinComplete={handleSpinComplete}
         particleIntensity={particleIntensity}
         cameraRef={cameraRef}
-        showRSVP={showRSVP}
-        onRSVPClose={handleRSVPClose}
-        guestData={guestData}
-        token={token}
         onReady={() => setSceneReady(true)}
       />
 
@@ -94,17 +79,18 @@ function InvitePage() {
       {/* Audio Controls */}
       {!isLoading && <AudioControls />}
 
-      {/* Invitation Card */}
+      {/* Flippable Card (Invitation + RSVP) */}
       {!isLoading && (
-        <InvitationCard
-          show={showInvitation}
+        <FlippableCard
+          show={showCard}
           guestName={guestData?.name}
-          onRSVPClick={handleRSVPClick}
+          guestData={guestData}
+          token={token}
         />
       )}
 
       {/* Debug info (remove later) */}
-      {!isLoading && !showInvitation && (
+      {!isLoading && !showCard && (
         <div className="absolute top-4 left-4 text-white text-sm bg-black bg-opacity-50 p-3 rounded z-10">
           <p>State: {interactionState}</p>
           <p>Interaction: Click curry to reveal</p>

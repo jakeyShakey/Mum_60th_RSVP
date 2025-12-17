@@ -3,7 +3,6 @@ import { useEffect, Suspense } from 'react';
 import Lighting from './Lighting';
 import CurryModel from './CurryModel';
 import Particles from './Particles';
-import RSVPForm3D from './RSVPForm3D';
 import { SCENE_CONFIG } from '../../utils/constants';
 
 // Helper component to expose camera to parent
@@ -19,7 +18,7 @@ function CameraSync({ cameraRef }) {
   return null;
 }
 
-export default function Scene({ onSpinComplete, particleIntensity = 0, cameraRef, showRSVP, onRSVPClose, guestData, token, onReady }) {
+export default function Scene({ onSpinComplete, particleIntensity = 0, cameraRef, onReady }) {
   // Track when Suspense completes and notify parent
   useEffect(() => {
     if (onReady) {
@@ -52,14 +51,6 @@ export default function Scene({ onSpinComplete, particleIntensity = 0, cameraRef
             onSpinComplete={onSpinComplete}
           />
         </Suspense>
-
-        {/* 3D RSVP Form */}
-        <RSVPForm3D
-          show={showRSVP}
-          guestData={guestData}
-          token={token}
-          onClose={onRSVPClose}
-        />
       </Canvas>
     </div>
   );
