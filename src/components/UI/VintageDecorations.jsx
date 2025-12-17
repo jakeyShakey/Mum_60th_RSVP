@@ -33,7 +33,7 @@ export function BorderFrame({ className = '' }) {
     <div
       className={`border-frame absolute pointer-events-none ${className}`}
       style={{
-        inset: '30px',
+        inset: '10px',
         border: '4px double #E9C46A',
         borderRadius: '4px',
         boxShadow: 'inset 0 0 20px rgba(233, 196, 106, 0.2)',
