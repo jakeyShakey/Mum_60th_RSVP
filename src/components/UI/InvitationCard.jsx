@@ -54,9 +54,12 @@ export default function InvitationCard({ show = false, guestName, onRSVPClick })
         <div className="relative z-10 text-center">
           {/* Main Headline */}
           <h1
-            className="invitation-headline font-headline text-fluid-6xl
+            className="invitation-headline font-headline
                        text-gradient-gold text-vintage-shadow leading-tight"
-            style={{ marginBottom: 'clamp(1rem, 3vw, 2rem)' }}
+            style={{ 
+              fontSize: 'clamp(3rem, 12vw, 6rem)',
+              marginBottom: 'clamp(1rem, 3vw, 2rem)' 
+            }}
           >
             {EVENT_DETAILS.name}
           </h1>
