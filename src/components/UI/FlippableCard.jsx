@@ -205,10 +205,11 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
           {/* ========== FRONT FACE: INVITATION ========== */}
           <div ref={frontRef} className="flippable-card-front">
             <div
-              className="invitation-content relative w-full p-6 md:p-16 rounded-lg"
+              className="invitation-content relative w-full rounded-lg"
               style={{
                 background: 'radial-gradient(circle at center, #FFF8E7 0%, #FF8C42 100%)',
                 boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)',
+                padding: 'clamp(1.5rem, 4vw, 4rem)',
               }}
             >
               {/* Decorative Layer */}
@@ -219,46 +220,54 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
               <div className="relative z-10 text-center">
                 {/* Main Headline */}
                 <h1
-                  className="invitation-headline font-headline text-4xl md:text-8xl
-                             text-gradient-gold text-vintage-shadow mb-4 md:mb-8 leading-tight"
+                  className="invitation-headline font-headline
+                             text-gradient-gold text-vintage-shadow leading-tight"
+                  style={{ 
+                    fontSize: 'clamp(3rem, 12vw, 6rem)',
+                    marginBottom: 'clamp(1rem, 3vw, 2rem)' 
+                  }}
                 >
                   {EVENT_DETAILS.name}
                 </h1>
 
                 {/* Divider 1 */}
-                <DividerOrnament className="mb-4 md:mb-6" />
+                <DividerOrnament style={{ marginBottom: 'clamp(1rem, 2.5vw, 1.5rem)' }} />
 
                 {/* Personalized Greeting */}
                 {guestName && (
-                  <p className="invitation-greeting font-script text-2xl md:text-4xl
-                                text-vintage-burgundy mb-4 md:mb-8"
+                  <p className="invitation-greeting font-script text-fluid-4xl
+                                text-vintage-burgundy"
+                     style={{ marginBottom: 'clamp(1rem, 3vw, 2rem)' }}
                   >
                     You're invited, {guestName}!
                   </p>
                 )}
 
                 {/* Date & Time */}
-                <div className="invitation-datetime font-body text-lg md:text-3xl
-                                text-vintage-brown font-semibold mb-4 md:mb-6 space-y-1"
+                <div className="invitation-datetime font-body text-fluid-3xl
+                                text-vintage-brown font-semibold space-y-1"
+                     style={{ marginBottom: 'clamp(1rem, 2.5vw, 1.5rem)' }}
                 >
                   <p>{EVENT_DETAILS.date}</p>
                   <p>{EVENT_DETAILS.time}</p>
                 </div>
 
                 {/* Venue */}
-                <div className="invitation-venue font-body text-base md:text-2xl
-                                text-vintage-burgundy mb-4 md:mb-6"
+                <div className="invitation-venue font-body text-fluid-2xl
+                                text-vintage-burgundy"
+                     style={{ marginBottom: 'clamp(1rem, 2.5vw, 1.5rem)' }}
                 >
                   <p className="font-bold mb-1">{EVENT_DETAILS.venue.name}</p>
                   <p className="text-retro-gold font-medium">{EVENT_DETAILS.venue.location}</p>
                 </div>
 
                 {/* Divider 2 */}
-                <DividerOrnament className="mb-4 md:mb-6" />
+                <DividerOrnament style={{ marginBottom: 'clamp(1rem, 2.5vw, 1.5rem)' }} />
 
                 {/* Special Note */}
-                <p className="invitation-note font-body text-base md:text-xl
-                              text-retro-orange italic mb-6 md:mb-10"
+                <p className="invitation-note font-body text-fluid-xl
+                              text-retro-orange italic"
+                   style={{ marginBottom: 'clamp(1.5rem, 4vw, 2.5rem)' }}
                 >
                   {EVENT_DETAILS.note}
                 </p>
@@ -267,10 +276,16 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
                 <button
                   onClick={handleFlipToBack}
                   className="rsvp-button font-body bg-gradient-to-r from-retro-orange to-retro-red
-                             text-white px-8 py-4 md:px-10 md:py-5 rounded-full text-lg md:text-2xl font-bold
+                             text-white rounded-full text-fluid-2xl font-bold
                              uppercase tracking-wider
                              hover:scale-105 active:scale-95 transition-transform
                              button-vintage-glow border-4 border-vintage-cream"
+                  style={{ 
+                    paddingLeft: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingRight: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingTop: 'clamp(1rem, 2.5vw, 1.25rem)',
+                    paddingBottom: 'clamp(1rem, 2.5vw, 1.25rem)',
+                  }}
                 >
                   RSVP Now
                 </button>
