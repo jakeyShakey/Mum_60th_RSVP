@@ -205,7 +205,7 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
           {/* ========== FRONT FACE: INVITATION ========== */}
           <div ref={frontRef} className="flippable-card-front">
             <div
-              className="invitation-content relative w-full rounded-lg"
+              className="invitation-content relative w-full h-full rounded-lg flex flex-col"
               style={{
                 background: 'radial-gradient(circle at center, #FFF8E7 0%, #FF8C42 100%)',
                 boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)',
@@ -217,7 +217,7 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
               <BorderFrame />
 
               {/* Content Layer */}
-              <div className="relative z-10 text-center">
+              <div className="relative z-10 text-center flex-grow flex flex-col justify-center">
                 {/* Main Headline */}
                 <h1
                   className="invitation-headline font-headline
@@ -296,10 +296,11 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
           {/* ========== BACK FACE: RSVP FORM ========== */}
           <div ref={backRef} className="flippable-card-back">
             <div
-              className="relative w-full h-full rounded-lg p-6 md:p-16 overflow-y-auto flex flex-col"
+              className="relative w-full h-full rounded-lg flex flex-col overflow-y-auto"
               style={{
                 background: 'radial-gradient(circle at center, #FFF8E7 0%, #FF8C42 100%)',
-                boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)'
+                boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)',
+                padding: 'clamp(1.25rem, 3vw, 2rem)',
               }}
             >
               {/* Back to Invitation button */}
@@ -316,53 +317,54 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
               <BorderFrame />
 
               {/* Content Layer */}
-              <div className="relative z-10">
+              <div className="relative z-10 h-full flex flex-col">
                 {/* Header */}
-                <div className="text-center mb-6 relative mt-6">
-                  <h2 className="font-headline text-4xl md:text-5xl text-gradient-gold text-vintage-shadow mb-6 leading-tight">
+                <div className="text-center relative" style={{ marginBottom: 'clamp(0.75rem, 2vw, 1.25rem)' }}>
+                  <h2 className="font-headline text-fluid-3xl text-gradient-gold text-vintage-shadow leading-tight" style={{ marginBottom: 'clamp(0.5rem, 1.5vw, 0.75rem)' }}>
                     {hasSubmitted ? '✨ Your RSVP ✨' : '🎊 RSVP 🎊'}
                   </h2>
 
-                  <DividerOrnament className="mb-4" />
+                  <DividerOrnament style={{ marginBottom: 'clamp(0.35rem, 1vw, 0.5rem)' }} />
 
-                  <p className="font-script text-2xl md:text-3xl text-vintage-burgundy mb-4">
+                  <p className="font-script text-fluid-lg text-vintage-burgundy">
                     {guestData?.name}
                   </p>
                 </div>
 
                 {hasSubmitted ? (
                   // Already submitted view
-                  <div className="text-center py-6">
-                    <div className="mb-6 relative">
-                      <div className="text-7xl md:text-9xl animate-bounce" style={{
+                  <div className="flex-grow flex flex-col justify-center text-center">
+                    <div className="relative" style={{ marginBottom: 'clamp(0.75rem, 2vw, 1.25rem)' }}>
+                      <div className="text-fluid-5xl animate-bounce" style={{
                         filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.5))',
                         animation: 'bounce 2s ease-in-out infinite'
                       }}>
                         {displayRsvpStatus === 'accepted' ? '🎉' : '😔'}
                       </div>
                     </div>
-                    <div className="bg-vintage-cream/95 p-6 md:p-8 rounded-2xl border-4 border-retro-gold shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-                      <p className="font-headline text-3xl md:text-4xl mb-4 text-vintage-shadow" style={{
-                        color: displayRsvpStatus === 'accepted' ? '#FF6B35' : '#800020'
+                    <div className="bg-vintage-cream/95 rounded-2xl border-4 border-retro-gold shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style={{ padding: 'clamp(0.75rem, 2vw, 1.25rem)' }}>
+                      <p className="font-headline text-fluid-2xl text-vintage-shadow" style={{
+                        color: displayRsvpStatus === 'accepted' ? '#FF6B35' : '#800020',
+                        marginBottom: 'clamp(0.5rem, 1.5vw, 0.75rem)'
                       }}>
                         You {displayRsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
                       </p>
                       {displayRsvpStatus === 'accepted' && (
-                        <div className="space-y-3 mt-4">
-                          <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
-                            <p className="font-body text-lg md:text-xl text-vintage-brown font-semibold">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(0.5rem, 1.5vw, 0.75rem)', marginTop: 'clamp(0.5rem, 1.5vw, 0.75rem)' }}>
+                          <div className="bg-retro-gold/90 rounded-xl border-2 border-vintage-burgundy" style={{ padding: 'clamp(0.6rem, 1.75vw, 0.85rem)' }}>
+                            <p className="font-body text-fluid-sm text-vintage-brown font-semibold">
                               👥 Attending: <span className="text-vintage-burgundy font-bold">{displayAttendingCount} {displayAttendingCount === 1 ? 'person' : 'people'}</span>
                             </p>
                           </div>
-                          <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
-                            <p className="font-body text-lg md:text-xl text-vintage-brown font-semibold">
+                          <div className="bg-retro-gold/90 rounded-xl border-2 border-vintage-burgundy" style={{ padding: 'clamp(0.6rem, 1.75vw, 0.85rem)' }}>
+                            <p className="font-body text-fluid-sm text-vintage-brown font-semibold">
                               🍛 Food: <span className="text-vintage-burgundy font-bold">{displayFoodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
                             </p>
                           </div>
                         </div>
                       )}
                       {displayRsvpStatus === 'accepted' && (
-                        <p className="font-body text-xl md:text-2xl text-vintage-burgundy mt-6 font-bold animate-pulse">
+                        <p className="font-body text-fluid-base text-vintage-burgundy font-bold animate-pulse" style={{ marginTop: 'clamp(0.75rem, 2vw, 1.25rem)' }}>
                           See you there! 🎊
                         </p>
                       )}
@@ -370,18 +372,24 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
                   </div>
                 ) : !showAcceptForm ? (
                   // Initial Accept/Decline buttons
-                  <div className="flex flex-col gap-3 md:gap-4">
+                  <div className="flex-grow flex flex-col justify-center" style={{ gap: 'clamp(0.75rem, 2vw, 1rem)' }}>
                     <button
                       onClick={handleAcceptClick}
                       disabled={isSubmitting}
                       className="rsvp-button-option w-full font-body bg-gradient-to-r from-retro-orange to-retro-red
-                               text-white px-8 py-3 rounded-full text-lg md:text-xl font-bold
+                               text-white rounded-full text-fluid-base font-bold
                                uppercase tracking-wider
                                hover:scale-105 active:scale-95 transition-transform
                                button-vintage-glow border-3 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{ 
+                        paddingLeft: 'clamp(1.25rem, 3vw, 1.75rem)',
+                        paddingRight: 'clamp(1.25rem, 3vw, 1.75rem)',
+                        paddingTop: 'clamp(0.75rem, 2vw, 1rem)',
+                        paddingBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                      }}
                     >
                       <span className="flex items-center justify-center gap-2">
-                        <span className="text-xl">🎉</span>
+                        <span className="text-fluid-base">🎉</span>
                         <span>Accept Invitation!</span>
                       </span>
                     </button>
@@ -390,10 +398,16 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
                       onClick={handleDeclineClick}
                       disabled={isSubmitting}
                       className="rsvp-button-option w-full font-body bg-gradient-to-r from-vintage-brown to-vintage-burgundy
-                               text-white px-8 py-3 rounded-full text-lg md:text-xl font-bold
+                               text-white rounded-full text-fluid-base font-bold
                                uppercase tracking-wider
                                hover:scale-105 active:scale-95 transition-transform
                                border-3 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{ 
+                        paddingLeft: 'clamp(1.25rem, 3vw, 1.75rem)',
+                        paddingRight: 'clamp(1.25rem, 3vw, 1.75rem)',
+                        paddingTop: 'clamp(0.75rem, 2vw, 1rem)',
+                        paddingBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                      }}
                     >
                       {isSubmitting ? (
                         <span className="flex items-center justify-center gap-2">
@@ -408,61 +422,64 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
                   </div>
                 ) : (
                   // Accept form with party size and food preference
-                  <div className="accept-form-fields flex flex-col gap-4">
-                    <DividerOrnament className="mb-1" />
+                  <div className="accept-form-fields flex flex-col" style={{ gap: 'clamp(0.75rem, 2vw, 1rem)' }}>
+                    <DividerOrnament style={{ marginBottom: 'clamp(0.25rem, 0.75vw, 0.4rem)' }} />
 
                     {/* Party Size Selection (only if couple) */}
                     {isCouple && (
-                      <div className="bg-vintage-cream/95 p-4 rounded-2xl border-2 border-retro-gold">
-                        <label className="block font-body text-lg md:text-xl text-vintage-burgundy font-semibold mb-3 text-center">
+                      <div className="bg-vintage-cream/95 rounded-2xl border-2 border-retro-gold" style={{ padding: 'clamp(0.75rem, 2vw, 1rem)' }}>
+                        <label className="block font-body text-fluid-sm text-vintage-burgundy font-semibold text-center" style={{ marginBottom: 'clamp(0.5rem, 1.5vw, 0.75rem)' }}>
                           👥 Can you both make it?
                         </label>
-                        <div className="flex flex-col gap-3">
-                          <label className={`flex items-center p-4 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                        <div className="flex flex-col" style={{ gap: 'clamp(0.5rem, 1.5vw, 0.75rem)' }}>
+                          <label className={`flex items-center rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                             attendingCount === partySize
-                              ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
-                              : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
-                          }`}>
+                              ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)]'
+                              : 'bg-vintage-cream border-retro-gold hover:bg-white'
+                          }`} style={{ padding: 'clamp(0.6rem, 1.75vw, 0.85rem)' }}>
                             <input
                               type="radio"
                               name="partySize"
                               value={partySize}
                               checked={attendingCount === partySize}
                               onChange={() => setAttendingCount(partySize)}
-                              className="mr-3 w-5 h-5 accent-retro-gold"
+                              className="accent-retro-gold"
+                              style={{ marginRight: 'clamp(0.6rem, 1.75vw, 0.85rem)', width: 'clamp(1.25rem, 3vw, 1.5rem)', height: 'clamp(1.25rem, 3vw, 1.5rem)' }}
                             />
-                            <span className={`font-body text-lg md:text-xl font-semibold ${attendingCount === partySize ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>✨ Yes, both of us!</span>
+                            <span className={`font-body text-fluid-sm font-semibold ${attendingCount === partySize ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>✨ Yes, both of us!</span>
                           </label>
-                          <label className={`flex items-center p-4 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                          <label className={`flex items-center rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                             attendingCount === 1
-                              ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
-                              : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
-                          }`}>
+                              ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)]'
+                              : 'bg-vintage-cream border-retro-gold hover:bg-white'
+                          }`} style={{ padding: 'clamp(0.6rem, 1.75vw, 0.85rem)' }}>
                             <input
                               type="radio"
                               name="partySize"
                               value="1"
                               checked={attendingCount === 1}
                               onChange={() => setAttendingCount(1)}
-                              className="mr-3 w-5 h-5 accent-retro-gold"
+                              className="accent-retro-gold"
+                              style={{ marginRight: 'clamp(0.5rem, 1.5vw, 0.75rem)', width: 'clamp(1.25rem, 3vw, 1.5rem)', height: 'clamp(1.25rem, 3vw, 1.5rem)' }}
                             />
-                            <span className={`font-body text-lg md:text-xl font-semibold ${attendingCount === 1 ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>Only 1 of us can make it</span>
+                            <span className={`font-body text-fluid-sm font-semibold ${attendingCount === 1 ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>Only 1 of us can make it</span>
                           </label>
                         </div>
                       </div>
                     )}
 
                     {/* Food Preference Selection */}
-                    <div className="bg-vintage-cream/95 p-4 rounded-2xl border-2 border-retro-gold">
-                      <label className="block font-body text-lg md:text-xl text-vintage-burgundy font-semibold mb-3 text-center">
+                    <div className="bg-vintage-cream/95 rounded-2xl border-2 border-retro-gold" style={{ padding: 'clamp(0.75rem, 2vw, 1rem)' }}>
+                      <label className="block font-body text-fluid-sm text-vintage-burgundy font-semibold text-center" style={{ marginBottom: 'clamp(0.5rem, 1.5vw, 0.75rem)' }}>
                         🍛 Food Preference
                       </label>
                       <select
                         value={foodPreference}
                         onChange={(e) => setFoodPreference(e.target.value)}
-                        className="w-full p-4 rounded-xl bg-white font-body text-vintage-brown text-lg md:text-xl font-semibold cursor-pointer
+                        className="w-full rounded-xl bg-white font-body text-vintage-brown text-fluid-sm font-semibold cursor-pointer
                                  focus:outline-none focus:ring-2 focus:ring-retro-gold shadow-[0_4px_20px_rgba(0,0,0,0.3)]
                                  border-2 border-retro-gold hover:border-vintage-burgundy transition-all duration-300"
+                        style={{ padding: 'clamp(0.6rem, 1.75vw, 0.85rem)' }}
                       >
                         <option value="indian">🌶️ Indian (Traditional Curry)</option>
                         <option value="english">🥘 English Food</option>
@@ -473,10 +490,16 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
                     <button
                       onClick={handleSubmitRSVP}
                       disabled={isSubmitting}
-                      className="w-full font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy px-8 py-3 rounded-full text-lg md:text-xl font-bold
+                      className="w-full font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy rounded-full text-fluid-base font-bold
                                uppercase tracking-wider
                                hover:scale-105 active:scale-95 transition-transform
                                button-vintage-glow border-3 border-vintage-burgundy disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{ 
+                        paddingLeft: 'clamp(1.25rem, 3vw, 1.75rem)',
+                        paddingRight: 'clamp(1.25rem, 3vw, 1.75rem)',
+                        paddingTop: 'clamp(0.75rem, 2vw, 1rem)',
+                        paddingBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                      }}
                     >
                       {isSubmitting ? (
                         <span className="flex items-center justify-center gap-2">
@@ -484,7 +507,7 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
                         </span>
                       ) : (
                         <span className="flex items-center justify-center gap-2">
-                          <span className="text-3xl">✓</span>
+                          <span className="text-fluid-xl">✓</span>
                           <span>Submit RSVP</span>
                         </span>
                       )}
@@ -493,7 +516,7 @@ export default function FlippableCard({ show = false, guestName, guestData, toke
                     {/* Back to choices button */}
                     <button
                       onClick={() => setShowAcceptForm(false)}
-                      className="font-body text-vintage-burgundy text-sm md:text-base underline hover:text-vintage-brown transition-colors"
+                      className="font-body text-vintage-burgundy text-fluid-xs underline hover:text-vintage-brown transition-colors"
                     >
                       ← Back to choices
                     </button>
