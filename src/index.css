@@ -147,12 +147,14 @@
   .flippable-card-container {
     perspective: 1500px;
     width: min(90vw, 700px);
+    max-height: 90vh;
   }
 
   .flippable-card-inner {
     position: relative;
     width: 100%;
-    min-height: clamp(500px, 80vh, 600px);
+    height: auto;
+    max-height: 90vh;
     transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
     transform-style: preserve-3d;
   }
