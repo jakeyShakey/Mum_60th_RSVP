@@ -93,17 +93,66 @@
       0 4px 10px rgba(0, 0, 0, 0.3);
   }
 
-  /* Flippable Card - 3D Transform System */
+  /* Fluid Typography System - Smooth scaling with clamp() */
+  .text-fluid-xs {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+  }
+
+  .text-fluid-sm {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+
+  .text-fluid-base {
+    font-size: clamp(1rem, 3vw, 1.125rem);
+  }
+
+  .text-fluid-lg {
+    font-size: clamp(1.125rem, 3.5vw, 1.5rem);
+  }
+
+  .text-fluid-xl {
+    font-size: clamp(1.25rem, 4vw, 1.875rem);
+  }
+
+  .text-fluid-2xl {
+    font-size: clamp(1.5rem, 5vw, 2.25rem);
+  }
+
+  .text-fluid-3xl {
+    font-size: clamp(1.875rem, 6vw, 3rem);
+  }
+
+  .text-fluid-4xl {
+    font-size: clamp(2.25rem, 7vw, 3.75rem);
+  }
+
+  .text-fluid-5xl {
+    font-size: clamp(3rem, 8vw, 5rem);
+  }
+
+  .text-fluid-6xl {
+    font-size: clamp(3.75rem, 10vw, 6rem);
+  }
+
+  /* Extra large emoji/icon sizes */
+  .text-fluid-7xl {
+    font-size: clamp(4.5rem, 12vw, 7rem);
+  }
+
+  .text-fluid-8xl {
+    font-size: clamp(6rem, 15vw, 9rem);
+  }
+
+  /* Flippable Card - 3D Transform System (Fluid) */
   .flippable-card-container {
     perspective: 1500px;
-    width: 100%;
-    max-width: 700px;
+    width: min(90vw, 700px);
   }
 
   .flippable-card-inner {
     position: relative;
     width: 100%;
-    min-height: 600px;
+    min-height: clamp(500px, 80vh, 600px);
     transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
     transform-style: preserve-3d;
   }
@@ -128,17 +177,5 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transform: rotateY(180deg);
-  }
-
-  /* Mobile responsive */
-  @media (max-width: 768px) {
-    .flippable-card-container {
-      perspective: 1000px;
-      max-width: 90vw;
-    }
-
-    .flippable-card-inner {
-      min-height: 500px;
-    }
   }
 }

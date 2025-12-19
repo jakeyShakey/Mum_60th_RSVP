@@ -177,7 +177,7 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
       occlude
       style={{ pointerEvents: 'auto' }}
     >
-      <div style={{ width: '500px', maxWidth: '90vw'}}>
+      <div style={{ width: 'min(90vw, 500px)' }}>
         <AnimatePresence>
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -186,11 +186,12 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
             transition={{ duration: 0.3 }}
             className="rsvp-form-3d"
           >
-          <div className="relative rounded-lg p-8 md:p-10 max-h-[80vh] overflow-y-auto"
+          <div className="relative rounded-lg max-h-[80vh] overflow-y-auto"
             ref={contentRef}
             style={{
               background: 'radial-gradient(circle at center, #FFF8E7 0%, #FF8C42 100%)',
-              boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)'
+              boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)',
+              padding: 'clamp(2rem, 5vw, 2.5rem)',
             }}
           >
             {/* Close button */}
@@ -210,51 +211,52 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
             <div className="relative z-10">
 
             {/* Header */}
-            <div className="text-center mb-6 relative mt-6">
-              <h2 className="font-headline text-4xl md:text-5xl text-gradient-gold text-vintage-shadow mb-6 leading-tight">
+            <div className="text-center relative" style={{ marginTop: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
+              <h2 className="font-headline text-fluid-5xl text-gradient-gold text-vintage-shadow leading-tight" style={{ marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
                 {hasSubmitted ? '✨ Your RSVP ✨' : '🎊 RSVP 🎊'}
               </h2>
 
-              <DividerOrnament className="mb-4" />
+              <DividerOrnament style={{ marginBottom: 'clamp(1rem, 2vw, 1.5rem)' }} />
 
-              <p className="font-script text-2xl md:text-3xl text-vintage-burgundy mb-4">
+              <p className="font-script text-fluid-3xl text-vintage-burgundy" style={{ marginBottom: 'clamp(1rem, 2vw, 1.5rem)' }}>
                 {guestData?.name}
               </p>
             </div>
 
             {hasSubmitted ? (
               // Already submitted view
-              <div className="text-center py-6">
-                <div className="mb-6 relative">
-                  <div className="text-7xl md:text-9xl animate-bounce" style={{
+              <div className="text-center" style={{ paddingTop: 'clamp(1.5rem, 3vw, 2rem)', paddingBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                <div className="relative" style={{ marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                  <div className="text-fluid-8xl animate-bounce" style={{
                     filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.5))',
                     animation: 'bounce 2s ease-in-out infinite'
                   }}>
                     {displayRsvpStatus === 'accepted' ? '🎉' : '😔'}
                   </div>
                 </div>
-                <div className="bg-vintage-cream/95 p-6 md:p-8 rounded-2xl border-4 border-retro-gold shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-                  <p className="font-headline text-3xl md:text-4xl mb-4 text-vintage-shadow" style={{
-                    color: displayRsvpStatus === 'accepted' ? '#FF6B35' : '#800020'
+                <div className="bg-vintage-cream/95 rounded-2xl border-4 border-retro-gold shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style={{ padding: 'clamp(1.5rem, 4vw, 2rem)' }}>
+                  <p className="font-headline text-fluid-4xl text-vintage-shadow" style={{
+                    color: displayRsvpStatus === 'accepted' ? '#FF6B35' : '#800020',
+                    marginBottom: 'clamp(1rem, 2vw, 1.5rem)'
                   }}>
                     You {displayRsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
                   </p>
                   {displayRsvpStatus === 'accepted' && (
-                    <div className="space-y-3 mt-4">
-                      <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
-                        <p className="font-body text-lg md:text-xl text-vintage-brown font-semibold">
+                    <div className="space-y-3" style={{ marginTop: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                      <div className="bg-retro-gold/90 rounded-xl border-2 border-vintage-burgundy" style={{ padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                        <p className="font-body text-fluid-xl text-vintage-brown font-semibold">
                           👥 Attending: <span className="text-vintage-burgundy font-bold">{displayAttendingCount} {displayAttendingCount === 1 ? 'person' : 'people'}</span>
                         </p>
                       </div>
-                      <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
-                        <p className="font-body text-lg md:text-xl text-vintage-brown font-semibold">
+                      <div className="bg-retro-gold/90 rounded-xl border-2 border-vintage-burgundy" style={{ padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                        <p className="font-body text-fluid-xl text-vintage-brown font-semibold">
                           🍛 Food: <span className="text-vintage-burgundy font-bold">{displayFoodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
                         </p>
                       </div>
                     </div>
                   )}
                   {displayRsvpStatus === 'accepted' && (
-                    <p className="font-body text-xl md:text-2xl text-vintage-burgundy mt-6 font-bold animate-pulse">
+                    <p className="font-body text-fluid-2xl text-vintage-burgundy font-bold animate-pulse" style={{ marginTop: 'clamp(1.5rem, 3vw, 2rem)' }}>
                       See you there! 🎊
                     </p>
                   )}
@@ -262,18 +264,24 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
               </div>
             ) : !showAcceptForm ? (
               // Initial Accept/Decline buttons
-              <div className="flex flex-col gap-3 md:gap-4">
+              <div className="flex flex-col" style={{ gap: 'clamp(0.75rem, 2vw, 1rem)' }}>
                 <button
                   onClick={handleAcceptClick}
                   disabled={isSubmitting}
                   className="rsvp-button-option w-full font-body bg-gradient-to-r from-retro-orange to-retro-red
-                           text-white px-8 py-3 rounded-full text-lg md:text-xl font-bold
+                           text-white rounded-full text-fluid-xl font-bold
                            uppercase tracking-wider
                            hover:scale-105 active:scale-95 transition-transform
                            button-vintage-glow border-3 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ 
+                    paddingLeft: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingRight: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingTop: 'clamp(0.75rem, 2vw, 1rem)',
+                    paddingBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                  }}
                 >
                   <span className="flex items-center justify-center gap-2">
-                    <span className="text-xl">🎉</span>
+                    <span className="text-fluid-xl">🎉</span>
                     <span>Accept Invitation!</span>
                   </span>
                 </button>
@@ -282,10 +290,16 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
                   onClick={handleDeclineClick}
                   disabled={isSubmitting}
                   className="rsvp-button-option w-full font-body bg-gradient-to-r from-vintage-brown to-vintage-burgundy
-                           text-white px-8 py-3 rounded-full text-lg md:text-xl font-bold
+                           text-white rounded-full text-fluid-xl font-bold
                            uppercase tracking-wider
                            hover:scale-105 active:scale-95 transition-transform
                            border-3 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ 
+                    paddingLeft: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingRight: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingTop: 'clamp(0.75rem, 2vw, 1rem)',
+                    paddingBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                  }}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center gap-2">
@@ -300,61 +314,64 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
               </div>
             ) : (
               // Accept form with party size and food preference
-              <div className="accept-form-fields flex flex-col gap-4">
-                <DividerOrnament className="mb-1" />
+              <div className="accept-form-fields flex flex-col" style={{ gap: 'clamp(1rem, 2.5vw, 1.5rem)' }}>
+                <DividerOrnament style={{ marginBottom: 'clamp(0.25rem, 1vw, 0.5rem)' }} />
 
                 {/* Party Size Selection (only if couple) */}
                 {isCouple && (
-                  <div className="bg-vintage-cream/95 p-4 rounded-2xl border-2 border-retro-gold">
-                    <label className="block font-body text-lg md:text-xl text-vintage-burgundy font-semibold mb-3 text-center">
+                  <div className="bg-vintage-cream/95 rounded-2xl border-2 border-retro-gold" style={{ padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                    <label className="block font-body text-fluid-xl text-vintage-burgundy font-semibold text-center" style={{ marginBottom: 'clamp(0.75rem, 2vw, 1rem)' }}>
                       👥 Can you both make it?
                     </label>
-                    <div className="flex flex-col gap-3">
-                      <label className={`flex items-center p-4 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                    <div className="flex flex-col" style={{ gap: 'clamp(0.75rem, 2vw, 1rem)' }}>
+                      <label className={`flex items-center rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                         attendingCount === partySize
                           ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
                           : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
-                      }`}>
+                      }`} style={{ padding: 'clamp(1rem, 2vw, 1.25rem)' }}>
                         <input
                           type="radio"
                           name="partySize"
                           value={partySize}
                           checked={attendingCount === partySize}
                           onChange={() => setAttendingCount(partySize)}
-                          className="mr-3 w-5 h-5 accent-retro-gold"
+                          className="accent-retro-gold"
+                          style={{ marginRight: 'clamp(0.75rem, 2vw, 1rem)', width: 'clamp(1.25rem, 3vw, 1.5rem)', height: 'clamp(1.25rem, 3vw, 1.5rem)' }}
                         />
-                        <span className={`font-body text-lg md:text-xl font-semibold ${attendingCount === partySize ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>✨ Yes, both of us!</span>
+                        <span className={`font-body text-fluid-xl font-semibold ${attendingCount === partySize ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>✨ Yes, both of us!</span>
                       </label>
-                      <label className={`flex items-center p-4 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                      <label className={`flex items-center rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                         attendingCount === 1
                           ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
                           : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
-                      }`}>
+                      }`} style={{ padding: 'clamp(1rem, 2vw, 1.25rem)' }}>
                         <input
                           type="radio"
                           name="partySize"
                           value="1"
                           checked={attendingCount === 1}
                           onChange={() => setAttendingCount(1)}
-                          className="mr-3 w-5 h-5 accent-retro-gold"
+                          className="accent-retro-gold"
+                          style={{ marginRight: 'clamp(0.75rem, 2vw, 1rem)', width: 'clamp(1.25rem, 3vw, 1.5rem)', height: 'clamp(1.25rem, 3vw, 1.5rem)' }}
                         />
-                        <span className={`font-body text-lg md:text-xl font-semibold ${attendingCount === 1 ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>Only 1 of us can make it</span>
+                        <span className={`font-body text-fluid-xl font-semibold ${attendingCount === 1 ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>Only 1 of us can make it</span>
                       </label>
                     </div>
                   </div>
                 )}
 
                 {/* Food Preference Selection */}
-                <div className="bg-vintage-cream/95 p-4 rounded-2xl border-2 border-retro-gold">
-                  <label className="block font-body text-lg md:text-xl text-vintage-burgundy font-semibold mb-3 text-center">
+                <div className="bg-vintage-cream/95 rounded-2xl border-2 border-retro-gold" style={{ padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                  <label className="block font-body text-fluid-xl text-vintage-burgundy font-semibold text-center" style={{ marginBottom: 'clamp(0.75rem, 2vw, 1rem)' }}>
                     🍛 Food Preference
                   </label>
                   <select
                     value={foodPreference}
                     onChange={(e) => setFoodPreference(e.target.value)}
-                    className="w-full p-4 rounded-xl bg-white font-body text-vintage-brown text-lg md:text-xl font-semibold cursor-pointer
+                    className="w-full rounded-xl bg-white font-body text-vintage-brown text-fluid-xl font-semibold cursor-pointer
                              focus:outline-none focus:ring-2 focus:ring-retro-gold shadow-[0_4px_20px_rgba(0,0,0,0.3)]
                              border-2 border-retro-gold hover:border-vintage-burgundy transition-all duration-300"
+                    style={{ padding: 'clamp(1rem, 2vw, 1.25rem)' }}
                   >
                     <option value="indian">🌶️ Indian (Traditional Curry)</option>
                     <option value="english">🥘 English Food</option>
@@ -365,10 +382,16 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
                 <button
                   onClick={handleSubmitRSVP}
                   disabled={isSubmitting}
-                  className="w-full font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy px-8 py-3 rounded-full text-lg md:text-xl font-bold
+                  className="w-full font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy rounded-full text-fluid-xl font-bold
                            uppercase tracking-wider
                            hover:scale-105 active:scale-95 transition-transform
                            button-vintage-glow border-3 border-vintage-burgundy disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ 
+                    paddingLeft: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingRight: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingTop: 'clamp(0.75rem, 2vw, 1rem)',
+                    paddingBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                  }}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center gap-2">
@@ -376,7 +399,7 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
                     </span>
                   ) : (
                     <span className="flex items-center justify-center gap-2">
-                      <span className="text-3xl">✓</span>
+                      <span className="text-fluid-3xl">✓</span>
                       <span>Submit RSVP</span>
                     </span>
                   )}
@@ -385,7 +408,7 @@ export default function RSVPForm3D({ show, guestData, token, onClose }) {
                 {/* Back to choices button */}
                 <button
                   onClick={() => setShowAcceptForm(false)}
-                  className="font-body text-vintage-burgundy text-sm md:text-base underline hover:text-vintage-brown transition-colors"
+                  className="font-body text-vintage-burgundy text-fluid-sm underline hover:text-vintage-brown transition-colors"
                 >
                   ← Back to choices
                 </button>
