@@ -215,13 +215,14 @@ export default function RSVPPage() {
       {/* Audio Controls */}
       <AudioControls />
 
-      <div className="max-w-md md:max-w-lg mx-auto p-4 md:p-8 py-16">
+      <div className="mx-auto py-16" style={{ width: 'min(90vw, 600px)', padding: 'clamp(1rem, 3vw, 2rem)' }}>
         <div
           ref={contentRef}
-          className="relative rounded-lg p-12 md:p-16"
+          className="relative rounded-lg"
           style={{
             background: 'radial-gradient(circle at center, #FFF8E7 0%, #FF8C42 100%)',
-            boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)'
+            boxShadow: '0 10px 50px rgba(0, 0, 0, 0.5)',
+            padding: 'clamp(3rem, 6vw, 4rem)',
           }}
         >
           {/* Vintage Decorative Elements */}
@@ -232,51 +233,52 @@ export default function RSVPPage() {
           <div className="relative z-10">
 
           {/* Header */}
-          <div className="text-center mb-8 relative">
-            <h2 className="font-headline text-5xl md:text-6xl text-gradient-gold text-vintage-shadow mb-8 leading-tight">
+          <div className="text-center relative" style={{ marginBottom: 'clamp(2rem, 4vw, 3rem)' }}>
+            <h2 className="font-headline text-fluid-6xl text-gradient-gold text-vintage-shadow leading-tight" style={{ marginBottom: 'clamp(2rem, 4vw, 3rem)' }}>
               {hasSubmitted ? '✨ Your RSVP ✨' : '🎊 RSVP 🎊'}
             </h2>
 
-            <DividerOrnament className="mb-6" />
+            <DividerOrnament style={{ marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }} />
 
-            <p className="font-script text-3xl md:text-4xl text-vintage-burgundy mb-6">
+            <p className="font-script text-fluid-4xl text-vintage-burgundy" style={{ marginBottom: 'clamp(1.5rem, 3vw, 2rem)' }}>
               {guestData.name}
             </p>
           </div>
 
           {hasSubmitted ? (
             // Already submitted view (read-only)
-            <div className="text-center py-10">
-              <div className="mb-8 relative">
-                <div className="text-9xl animate-bounce" style={{
+            <div className="text-center" style={{ paddingTop: 'clamp(2.5rem, 5vw, 3rem)', paddingBottom: 'clamp(2.5rem, 5vw, 3rem)' }}>
+              <div className="relative" style={{ marginBottom: 'clamp(2rem, 4vw, 3rem)' }}>
+                <div className="text-fluid-8xl animate-bounce" style={{
                   filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.5))',
                   animation: 'bounce 2s ease-in-out infinite'
                 }}>
                   {displayRsvpStatus === 'accepted' ? '🎉' : '😔'}
                 </div>
               </div>
-              <div className="bg-vintage-cream/95 p-8 rounded-2xl border-4 border-retro-gold shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-                <p className="font-headline text-3xl md:text-4xl mb-6 text-vintage-shadow" style={{
-                  color: displayRsvpStatus === 'accepted' ? '#FF6B35' : '#800020'
+              <div className="bg-vintage-cream/95 rounded-2xl border-4 border-retro-gold shadow-[0_8px_32px_rgba(0,0,0,0.4)]" style={{ padding: 'clamp(2rem, 4vw, 3rem)' }}>
+                <p className="font-headline text-fluid-4xl text-vintage-shadow" style={{
+                  color: displayRsvpStatus === 'accepted' ? '#FF6B35' : '#800020',
+                  marginBottom: 'clamp(1.5rem, 3vw, 2rem)'
                 }}>
                   You {displayRsvpStatus === 'accepted' ? '✨ Accepted! ✨' : 'Declined'}
                 </p>
                 {displayRsvpStatus === 'accepted' && (
-                  <div className="space-y-4 mt-6">
-                    <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
-                      <p className="font-body text-xl text-vintage-brown font-semibold">
+                  <div className="space-y-4" style={{ marginTop: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                    <div className="bg-retro-gold/90 rounded-xl border-2 border-vintage-burgundy" style={{ padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                      <p className="font-body text-fluid-xl text-vintage-brown font-semibold">
                         👥 Attending: <span className="text-vintage-burgundy font-bold">{displayAttendingCount} {displayAttendingCount === 1 ? 'person' : 'people'}</span>
                       </p>
                     </div>
-                    <div className="bg-retro-gold/90 p-4 rounded-xl border-2 border-vintage-burgundy">
-                      <p className="font-body text-xl text-vintage-brown font-semibold">
+                    <div className="bg-retro-gold/90 rounded-xl border-2 border-vintage-burgundy" style={{ padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                      <p className="font-body text-fluid-xl text-vintage-brown font-semibold">
                         🍛 Food: <span className="text-vintage-burgundy font-bold">{displayFoodPreference === 'indian' ? 'Indian (Traditional)' : 'English'}</span>
                       </p>
                     </div>
                   </div>
                 )}
                 {!hasLocalSubmission && guestData.timestamp && (
-                  <p className="font-body text-lg text-vintage-brown mt-6 italic">
+                  <p className="font-body text-fluid-lg text-vintage-brown italic" style={{ marginTop: 'clamp(1.5rem, 3vw, 2rem)' }}>
                     Submitted on {new Date(guestData.timestamp).toLocaleDateString('en-US', {
                       month: 'long',
                       day: 'numeric',
@@ -285,15 +287,22 @@ export default function RSVPPage() {
                   </p>
                 )}
                 {displayRsvpStatus === 'accepted' && (
-                  <p className="font-body text-2xl text-vintage-burgundy mt-8 font-bold animate-pulse">
+                  <p className="font-body text-fluid-2xl text-vintage-burgundy font-bold animate-pulse" style={{ marginTop: 'clamp(2rem, 4vw, 3rem)' }}>
                     See you there! 🎊
                   </p>
                 )}
                 <button
                   onClick={() => navigate(`/invite/${token}`)}
-                  className="mt-8 font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy px-8 py-4 rounded-full text-lg font-bold
+                  className="font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy rounded-full text-fluid-lg font-bold
                            uppercase tracking-wider hover:scale-105 active:scale-95 transition-transform
                            button-vintage-glow border-4 border-vintage-burgundy"
+                  style={{ 
+                    marginTop: 'clamp(2rem, 4vw, 3rem)',
+                    paddingLeft: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingRight: 'clamp(2rem, 4vw, 2.5rem)',
+                    paddingTop: 'clamp(1rem, 2vw, 1.5rem)',
+                    paddingBottom: 'clamp(1rem, 2vw, 1.5rem)',
+                  }}
                 >
                   Back to Invitation
                 </button>
@@ -301,19 +310,25 @@ export default function RSVPPage() {
             </div>
           ) : !showAcceptForm ? (
             // Initial Accept/Decline buttons
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col" style={{ gap: 'clamp(1.5rem, 3vw, 2rem)' }}>
               {/* Accept Button */}
               <button
                 onClick={handleAcceptClick}
                 disabled={isSubmitting}
                 className="rsvp-button-option w-full font-body bg-gradient-to-r from-retro-orange to-retro-red
-                         text-white px-10 py-5 rounded-full text-xl md:text-2xl font-bold
+                         text-white rounded-full text-fluid-2xl font-bold
                          uppercase tracking-wider
                          hover:scale-105 active:scale-95 transition-transform
                          button-vintage-glow border-4 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ 
+                  paddingLeft: 'clamp(2.5rem, 5vw, 3rem)',
+                  paddingRight: 'clamp(2.5rem, 5vw, 3rem)',
+                  paddingTop: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                  paddingBottom: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                }}
               >
                 <span className="flex items-center justify-center gap-2">
-                  <span className="text-3xl">🎉</span>
+                  <span className="text-fluid-3xl">🎉</span>
                   <span>Accept Invitation!</span>
                 </span>
               </button>
@@ -323,10 +338,16 @@ export default function RSVPPage() {
                 onClick={handleDeclineClick}
                 disabled={isSubmitting}
                 className="rsvp-button-option w-full font-body bg-gradient-to-r from-vintage-brown to-vintage-burgundy
-                         text-white px-10 py-5 rounded-full text-xl md:text-2xl font-bold
+                         text-white rounded-full text-fluid-2xl font-bold
                          uppercase tracking-wider
                          hover:scale-105 active:scale-95 transition-transform
                          border-4 border-vintage-cream disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ 
+                  paddingLeft: 'clamp(2.5rem, 5vw, 3rem)',
+                  paddingRight: 'clamp(2.5rem, 5vw, 3rem)',
+                  paddingTop: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                  paddingBottom: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                }}
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -341,61 +362,64 @@ export default function RSVPPage() {
             </div>
           ) : (
             // Accept form with party size and food preference
-            <div className="accept-form-fields flex flex-col gap-8">
-              <DividerOrnament className="mb-2" />
+            <div className="accept-form-fields flex flex-col" style={{ gap: 'clamp(2rem, 4vw, 3rem)' }}>
+              <DividerOrnament style={{ marginBottom: 'clamp(0.5rem, 1vw, 1rem)' }} />
 
               {/* Party Size Selection (only if couple) */}
               {isCouple && (
-                <div className="bg-vintage-cream/95 p-6 rounded-2xl border-2 border-retro-gold">
-                  <label className="block font-body text-2xl text-vintage-burgundy font-semibold mb-5 text-center">
+                <div className="bg-vintage-cream/95 rounded-2xl border-2 border-retro-gold" style={{ padding: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                  <label className="block font-body text-fluid-2xl text-vintage-burgundy font-semibold text-center" style={{ marginBottom: 'clamp(1.25rem, 2.5vw, 1.75rem)' }}>
                     👥 Can you both make it?
                   </label>
-                  <div className="flex flex-col gap-4">
-                    <label className={`flex items-center p-5 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                  <div className="flex flex-col" style={{ gap: 'clamp(1rem, 2vw, 1.5rem)' }}>
+                    <label className={`flex items-center rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                       attendingCount === partySize
                         ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
                         : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
-                    }`}>
+                    }`} style={{ padding: 'clamp(1.25rem, 2.5vw, 1.75rem)' }}>
                       <input
                         type="radio"
                         name="partySize"
                         value={partySize}
                         checked={attendingCount === partySize}
                         onChange={() => setAttendingCount(partySize)}
-                        className="mr-4 w-6 h-6 accent-retro-gold"
+                        className="accent-retro-gold"
+                        style={{ marginRight: 'clamp(1rem, 2vw, 1.5rem)', width: 'clamp(1.5rem, 3vw, 2rem)', height: 'clamp(1.5rem, 3vw, 2rem)' }}
                       />
-                      <span className={`font-body text-xl font-semibold ${attendingCount === partySize ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>✨ Yes, both of us!</span>
+                      <span className={`font-body text-fluid-xl font-semibold ${attendingCount === partySize ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>✨ Yes, both of us!</span>
                     </label>
-                    <label className={`flex items-center p-5 rounded-xl cursor-pointer transition-all duration-300 border-2 ${
+                    <label className={`flex items-center rounded-xl cursor-pointer transition-all duration-300 border-2 ${
                       attendingCount === 1
                         ? 'bg-retro-gold border-vintage-burgundy shadow-[0_0_20px_rgba(233,196,106,0.5)] scale-105'
                         : 'bg-vintage-cream border-retro-gold hover:bg-white hover:scale-102'
-                    }`}>
+                    }`} style={{ padding: 'clamp(1.25rem, 2.5vw, 1.75rem)' }}>
                       <input
                         type="radio"
                         name="partySize"
                         value="1"
                         checked={attendingCount === 1}
                         onChange={() => setAttendingCount(1)}
-                        className="mr-4 w-6 h-6 accent-retro-gold"
+                        className="accent-retro-gold"
+                        style={{ marginRight: 'clamp(1rem, 2vw, 1.5rem)', width: 'clamp(1.5rem, 3vw, 2rem)', height: 'clamp(1.5rem, 3vw, 2rem)' }}
                       />
-                      <span className={`font-body text-xl font-semibold ${attendingCount === 1 ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>Only 1 of us can make it</span>
+                      <span className={`font-body text-fluid-xl font-semibold ${attendingCount === 1 ? 'text-vintage-burgundy' : 'text-vintage-brown'}`}>Only 1 of us can make it</span>
                     </label>
                   </div>
                 </div>
               )}
 
               {/* Food Preference Selection */}
-              <div className="bg-vintage-cream/95 p-6 rounded-2xl border-2 border-retro-gold">
-                <label className="block font-body text-2xl text-vintage-burgundy font-semibold mb-5 text-center">
+              <div className="bg-vintage-cream/95 rounded-2xl border-2 border-retro-gold" style={{ padding: 'clamp(1.5rem, 3vw, 2rem)' }}>
+                <label className="block font-body text-fluid-2xl text-vintage-burgundy font-semibold text-center" style={{ marginBottom: 'clamp(1.25rem, 2.5vw, 1.75rem)' }}>
                   🍛 Food Preference
                 </label>
                 <select
                   value={foodPreference}
                   onChange={(e) => setFoodPreference(e.target.value)}
-                  className="w-full p-5 rounded-xl bg-white font-body text-vintage-brown text-xl font-semibold cursor-pointer
+                  className="w-full rounded-xl bg-white font-body text-vintage-brown text-fluid-xl font-semibold cursor-pointer
                            focus:outline-none focus:ring-2 focus:ring-retro-gold shadow-[0_4px_20px_rgba(0,0,0,0.3)]
                            border-2 border-retro-gold hover:border-vintage-burgundy transition-all duration-300"
+                  style={{ padding: 'clamp(1.25rem, 2.5vw, 1.5rem)' }}
                 >
                   <option value="indian">🌶️ Indian (Traditional Curry)</option>
                   <option value="english">🥘 English Food</option>
@@ -406,10 +430,16 @@ export default function RSVPPage() {
               <button
                 onClick={handleSubmitRSVP}
                 disabled={isSubmitting}
-                className="w-full font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy px-10 py-5 rounded-full text-xl md:text-2xl font-bold
+                className="w-full font-body bg-gradient-to-r from-retro-gold to-retro-yellow text-vintage-burgundy rounded-full text-fluid-2xl font-bold
                          uppercase tracking-wider
                          hover:scale-105 active:scale-95 transition-transform
                          button-vintage-glow border-4 border-vintage-burgundy disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ 
+                  paddingLeft: 'clamp(2.5rem, 5vw, 3rem)',
+                  paddingRight: 'clamp(2.5rem, 5vw, 3rem)',
+                  paddingTop: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                  paddingBottom: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                }}
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -417,7 +447,7 @@ export default function RSVPPage() {
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
-                    <span className="text-3xl">✓</span>
+                    <span className="text-fluid-3xl">✓</span>
                     <span>Submit RSVP</span>
                   </span>
                 )}

@@ -88,14 +88,6 @@ function InvitePage() {
           token={token}
         />
       )}
-
-      {/* Debug info (remove later) */}
-      {!isLoading && !showCard && (
-        <div className="absolute top-4 left-4 text-white text-sm bg-black bg-opacity-50 p-3 rounded z-10">
-          <p>State: {interactionState}</p>
-          <p>Interaction: Click curry to reveal</p>
-        </div>
-      )}
     </div>
   );
 }
